@@ -1,8 +1,13 @@
 package main;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -11,12 +16,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import main.commands.Command;
+
 public class Driver {
-	
-	public static void main(String[] args) {
+	static Set<Command> commands = new TreeSet<>();
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		String userdir = System.getProperty("user.dir");
 		String driverPath = userdir + "/src/resources/driver/chromedriver.exe";
+		String userfilePath = userdir + "/src/resources/userfile.txt";
+		
+		FileWriter fw = new FileWriter(userfilePath);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
 		System.setProperty("webdriver.chrome.driver", driverPath);
 		WebDriver driver = new ChromeDriver();
 		boolean flag = false;
@@ -27,7 +39,8 @@ public class Driver {
 				WebElement webElementProblems;
 				try {
 					webElementProblems = driver.findElement(By.xpath("//div[@class='border-spacing-0 overflow-auto']/div[@class='inline-block min-w-full']/div[2]/div[@class='odd:bg-layer-1 even:bg-overlay-1 dark:odd:bg-dark-layer-bg dark:even:bg-dark-fill-4']["+i+"]"));
-					System.out.println(webElementProblems.getText());
+					bw.write(webElementProblems.getText());
+					bw.flush();
 				} catch (Exception e) {
 					flag = true;
 					break;

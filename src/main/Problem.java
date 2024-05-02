@@ -16,5 +16,5 @@ public class Problem {
 		System.out.println(test.substring(test.indexOf(' ')+1, test.indexOf('%')-4));
 		System.out.println(test.substring(test.indexOf('%')+1));
 	}
-
+	
 }
